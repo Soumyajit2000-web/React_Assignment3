@@ -16,16 +16,20 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-function EmployeeForm(props:any):any {
+type EmpType = { 
+    name: string , 
+    age: string, 
+    notes?: string 
+}
+
+interface props{
+    handleSubmit(employee:EmpType): any,
+}
+
+const EmployeeForm : React.FC<props> = (props) => {
     const classes = useStyles();
-    type EmpType = { 
-        name: string , 
-        age: string, 
-        notes?: string 
-    }
     const [employee, setEmployee] = useState<EmpType | any>({name: "", age: "", notes: ""});
     const [err, setError] = useState<boolean>(false)
-
 
     const handleOnChange = (e:any) =>{
         setEmployee((prevEmployee:EmpType)=>{

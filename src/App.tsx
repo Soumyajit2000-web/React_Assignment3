@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import EmployeeTabs from './EmployeeTabs';
+import EmployeeTabs from './components/EmployeeTabs';
 
 function App() {
   return (

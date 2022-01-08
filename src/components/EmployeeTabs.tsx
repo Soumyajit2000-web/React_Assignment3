@@ -5,8 +5,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import EmployeeList from './components/EmployeeList';
-import EmployeeForm from './components/EmployeeForm';
+import EmployeeList from './EmployeeList';
+import EmployeeForm from './EmployeeForm';
 
 interface TabPanelProps {
   children?: React.ReactNode;
