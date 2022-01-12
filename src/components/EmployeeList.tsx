@@ -37,7 +37,17 @@ const useStyles = makeStyles({
     },
 });
 
-function EmployeeList(props:any) {
+type EmpType = { 
+    name: string , 
+    age: string, 
+    notes?: string 
+}
+
+interface props {
+    employeeData: EmpType[] 
+}
+
+const EmployeeList:React.FC<props> =  (props) => {
     const classes = useStyles();
     return (
         <div>

@@ -48,16 +48,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
+type EmpType = { 
+  name: string , 
+  age: string, 
+  notes?: string 
+}
+
 export default function EmployeeTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const [employeeData, setEmployeeData] = React.useState([
-    {name: "Katherine	Langdon", age: 21 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Harry	Henderson", age: 27 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Sarah	Parr", age: 28 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
-    {name: "Dominic	Parr", age: 29 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
-    {name: "Harry	Avery", age: 30 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Elizabeth	Hudson", age: 43 , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+  const [employeeData, setEmployeeData] = React.useState<EmpType[]>([
+    {name: "Katherine	Langdon", age: "21" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+    {name: "Harry	Henderson", age: "27" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+    {name: "Sarah	Parr", age: "28" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
+    {name: "Dominic	Parr", age: "29" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
+    {name: "Harry	Avery", age: "30" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+    {name: "Elizabeth	Hudson", age: "43" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
   ])
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

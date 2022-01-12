@@ -3,7 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,6 +30,7 @@ const EmployeeForm : React.FC<props> = (props) => {
     const classes = useStyles();
     const [employee, setEmployee] = useState<EmpType | any>({name: "", age: "", notes: ""});
     const [err, setError] = useState<boolean>(false)
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState<boolean>(false)
 
     const handleOnChange = (e:any) =>{
         setEmployee((prevEmployee:EmpType)=>{
@@ -44,6 +45,11 @@ const EmployeeForm : React.FC<props> = (props) => {
         if(employee.name !== "" && employee.age !== ""){
             props.handleSubmit(employee)
             setError(false);
+            setIsSubmitSuccess(true)
+            setTimeout(()=>{
+                setIsSubmitSuccess(false)
+            }, 5000)
+            setEmployee({name: "", age: "", notes: ""})
         } else {
             setError(true);
         }
@@ -53,6 +59,8 @@ const EmployeeForm : React.FC<props> = (props) => {
 
     return (
         <>
+            { isSubmitSuccess? <Alert severity="success">Form Submitted</Alert>: null }
+            { err? <Alert severity="error">Please fill the required data! </Alert>: null }
             <Typography variant="h3" gutterBottom>
                 Add New Employee
             </Typography>
@@ -63,10 +71,10 @@ const EmployeeForm : React.FC<props> = (props) => {
                         name="name"
                         error={err? true : false}
                         required
-                        // id={error? "outlined-error-helper-text" : "outlined-required"}
                         id="outlined-required"
                         label="Name"
                         variant="outlined"
+                        value={employee.name}
                         helperText={err? "Required" : ""}
                         onChange={handleOnChange}
                     />
@@ -76,6 +84,7 @@ const EmployeeForm : React.FC<props> = (props) => {
                         id="outlined-number"
                         label="Age"
                         type="number"
+                        value={employee.age}
                         onChange={handleOnChange}
                         helperText={err? "Required" : ""}
                         InputLabelProps={{
@@ -88,6 +97,7 @@ const EmployeeForm : React.FC<props> = (props) => {
                         id="outlined-basic" 
                         label="Notes" 
                         variant="outlined" 
+                        value={employee.notes}
                         onChange={handleOnChange}
 
                     />
@@ -95,11 +105,8 @@ const EmployeeForm : React.FC<props> = (props) => {
                 </div>
             </form>
             <Button onClick={handleForm} variant="contained" color="secondary" >Submit</Button>
-
         </>
     )
-
-
 }
 
 export default EmployeeForm
