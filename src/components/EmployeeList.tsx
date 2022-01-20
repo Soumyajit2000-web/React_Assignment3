@@ -8,6 +8,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -37,17 +41,20 @@ const useStyles = makeStyles({
     },
 });
 
-type EmpType = { 
-    name: string , 
-    age: string, 
-    notes?: string 
+type EmpType = {
+    name: string,
+    age: string,
+    notes?: string,
+    id: number,
 }
 
 interface props {
-    employeeData: EmpType[] 
+    employeeData: EmpType[],
+    handleDelete: any,
+    handleEditOpen?: any,
 }
 
-const EmployeeList:React.FC<props> =  (props) => {
+const EmployeeList: React.FC<props> = (props) => {
     const classes = useStyles();
     return (
         <div>
@@ -61,16 +68,23 @@ const EmployeeList:React.FC<props> =  (props) => {
                             <StyledTableCell align="center">Name</StyledTableCell>
                             <StyledTableCell align="center">Age</StyledTableCell>
                             <StyledTableCell align="center">Notes</StyledTableCell>
+                            <StyledTableCell align="center">Actions</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.employeeData.map((row:any) => (
+                        {props.employeeData.map((row: any) => (
                             <StyledTableRow key={row.name}>
                                 <StyledTableCell align="center" component="th" scope="row">
                                     {row.name}
                                 </StyledTableCell>
                                 <StyledTableCell align="center">{row.age}</StyledTableCell>
                                 <StyledTableCell align="center">{row.notes}</StyledTableCell>
+                                <StyledTableCell align="center">
+                                    <ButtonGroup>
+                                        <Button color="secondary" onClick={()=>props.handleDelete(row.id)}><DeleteIcon /></Button>
+                                        <Button style={{ color: "green" }} onClick={()=>props.handleEditOpen(row.id)}><EditIcon /></Button>
+                                    </ButtonGroup>
+                                </StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

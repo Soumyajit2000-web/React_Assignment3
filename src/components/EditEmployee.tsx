@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -23,14 +23,19 @@ type EmpType = {
 }
 
 interface props{
-    handleSubmit(employee:EmpType): any,
+    handleEdit(employee:EmpType): any,
+    tempEmployee: EmpType,
 }
 
-const EmployeeForm : React.FC<props> = (props) => {
+function EditEmployee(props: props) {
     const classes = useStyles();
     const [employee, setEmployee] = useState<EmpType | any>({name: "", age: "", notes: "", id: 0});
     const [err, setError] = useState<boolean>(false)
     const [isSubmitSuccess, setIsSubmitSuccess] = useState<boolean>(false)
+
+    useEffect(()=>{
+        setEmployee(props.tempEmployee)
+    }, [])
 
     const handleOnChange = (e:any) =>{
         setEmployee((prevEmployee:EmpType)=>{
@@ -49,13 +54,12 @@ const EmployeeForm : React.FC<props> = (props) => {
             }
         });
         if(employee.name !== "" && employee.age !== ""){
-            props.handleSubmit(employee)
+            props.handleEdit(employee)
             setError(false);
             setIsSubmitSuccess(true)
             setTimeout(()=>{
                 setIsSubmitSuccess(false)
             }, 5000)
-            setEmployee({name: "", age: "", notes: ""})
         } else {
             setError(true);
         }
@@ -65,7 +69,7 @@ const EmployeeForm : React.FC<props> = (props) => {
 
     return (
         <>
-            { isSubmitSuccess? <Alert severity="success">Form Submitted</Alert>: null }
+            { isSubmitSuccess? <Alert severity="success">Form Updated</Alert>: null }
             { err? <Alert severity="error">Please fill the required data! </Alert>: null }
             <form className={classes.root}>
 
@@ -102,7 +106,6 @@ const EmployeeForm : React.FC<props> = (props) => {
                         variant="outlined" 
                         value={employee.notes}
                         onChange={handleOnChange}
-
                     />
 
                 </div>
@@ -112,4 +115,4 @@ const EmployeeForm : React.FC<props> = (props) => {
     )
 }
 
-export default EmployeeForm
+export default EditEmployee;

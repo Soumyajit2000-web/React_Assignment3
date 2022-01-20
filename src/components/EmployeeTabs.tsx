@@ -51,19 +51,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 type EmpType = { 
   name: string , 
   age: string, 
-  notes?: string 
+  notes?: string,
+  id: number,
 }
 
 export default function EmployeeTabs() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [employeeData, setEmployeeData] = React.useState<EmpType[]>([
-    {name: "Katherine	Langdon", age: "21" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Harry	Henderson", age: "27" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Sarah	Parr", age: "28" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
-    {name: "Dominic	Parr", age: "29" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. "},
-    {name: "Harry	Avery", age: "30" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
-    {name: "Elizabeth	Hudson", age: "43" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry."},
+    {name: "Katherine	Langdon", age: "21" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.", id: 1},
+    {name: "Harry	Henderson", age: "27" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.", id: 2},
+    {name: "Sarah	Parr", age: "28" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. ", id: 3},
+    {name: "Dominic	Parr", age: "29" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. ", id: 4},
+    {name: "Harry	Avery", age: "30" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.", id: 5},
+    {name: "Elizabeth	Hudson", age: "43" , notes:"Lorem Ipsum is simply dummy text of the printing and typesetting industry.", id: 6},
   ])
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -80,6 +81,10 @@ export default function EmployeeTabs() {
     })
   }
 
+  function handleDelete (id:any){
+    setEmployeeData(employeeData.filter((emp)=>emp.id !== id))
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -89,7 +94,7 @@ export default function EmployeeTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <EmployeeList employeeData={employeeData} />
+        <EmployeeList handleDelete={handleDelete} employeeData={employeeData} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <EmployeeForm handleSubmit={handleSubmit}/>
