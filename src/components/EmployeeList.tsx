@@ -12,6 +12,12 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Alert from '@material-ui/lab/Alert';
 
 const StyledTableCell = withStyles((theme: Theme) =>
     createStyles({
@@ -56,11 +62,34 @@ interface props {
 
 const EmployeeList: React.FC<props> = (props) => {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [rowId, setRowId] = React.useState(0);
+    const [alert, setAlert] = React.useState(false);
+
+    const handleClickOpen = (id: any) => {
+        setOpen(true);
+        setRowId(id);
+    };
+
+    const deleteRow = ()=>{
+        props.handleDelete(rowId);
+        setOpen(false);
+        setAlert(true);
+        setTimeout(() => {
+            setAlert(false);
+        }, 5000)
+    }
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <div>
             <Typography variant="h3" gutterBottom>
                 Employee List
             </Typography>
+            { alert ? <Alert severity="info">Row Deleted</Alert> : null }
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="customized table">
                     <TableHead>
@@ -81,8 +110,8 @@ const EmployeeList: React.FC<props> = (props) => {
                                 <StyledTableCell align="center">{row.notes}</StyledTableCell>
                                 <StyledTableCell align="center">
                                     <ButtonGroup>
-                                        <Button color="secondary" onClick={()=>props.handleDelete(row.id)}><DeleteIcon /></Button>
-                                        <Button style={{ color: "green" }} onClick={()=>props.handleEditOpen(row.id)}><EditIcon /></Button>
+                                        <Button color="secondary" onClick={() => handleClickOpen(row.id)}><DeleteIcon /></Button>
+                                        <Button style={{ color: "green" }} onClick={() => props.handleEditOpen(row.id)}><EditIcon /></Button>
                                     </ButtonGroup>
                                 </StyledTableCell>
                             </StyledTableRow>
@@ -90,6 +119,27 @@ const EmployeeList: React.FC<props> = (props) => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"Are you sure you want to delete the row?"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        This will delete the row permanently!
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={deleteRow} color="secondary">
+                        Delete
+                    </Button>
+                    <Button onClick={handleClose} color="primary" autoFocus>
+                        Cancel
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }
